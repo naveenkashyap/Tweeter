@@ -2,17 +2,17 @@
 
 **Tweeter** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **X** hours spent in total
+Time spent: **6** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-- [ ] User can sign in using OAuth login flow
-- [ ] User can view last 20 tweets from their home timeline
-- [ ] The current signed in user will be persisted across restarts
-- [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
-- [ ] Retweeting and favoriting should increment the retweet and favorite count.
+- [X] User can sign in using OAuth login flow
+- [X] User can view last 20 tweets from their home timeline
+- [X] The current signed in user will be persisted across restarts
+- [X] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
+- [X] Retweeting and favoriting should increment the retweet and favorite count.
 
 The following **optional** features are implemented:
 
@@ -43,7 +43,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2017] [Naveen Kashyap]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
