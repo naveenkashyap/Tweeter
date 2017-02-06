@@ -45,6 +45,8 @@ class User: NSObject {
                     _currentUser = User(dictionary: dictionary)
                 
                 }
+            } else {
+                return nil
             }
             return _currentUser
         }
@@ -60,7 +62,7 @@ class User: NSObject {
                 
             } else {
                 
-                defaults.set(nil, forKey: "currentUserData")
+                defaults.removeObject(forKey: "currentUserData")
                 
             }
             defaults.synchronize()
