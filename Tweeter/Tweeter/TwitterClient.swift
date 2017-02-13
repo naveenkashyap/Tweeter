@@ -62,6 +62,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     func homeTimeline( success: @escaping (([Tweet]) -> ()),  failure: @escaping ((Error) -> ())){
         get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
             let dictionaries = response as! [NSDictionary]
             
             let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
@@ -86,6 +87,64 @@ class TwitterClient: BDBOAuth1SessionManager {
             failure(error)
         })
 
+    }
+    
+    func retweet(id: String, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        let urlString = "1.1/statuses/retweet/" + id + ".json"
+        post(urlString, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }) { (task:URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+    }
+    
+    func favorite(id: String, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        let urlString = "1.1/favorites/create.json?id=" + id
+        post(urlString, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }) { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+    }
+    
+    func getUser(id: String, success: @escaping (User) -> (), failure: @escaping (Error) -> ()) {
+        let urlString = "1.1/users/lookup.json?user_id=" + id
+        get(urlString, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let userDictionary = response as! [NSDictionary]
+            let user = User(dictionary: userDictionary[0])
+            success(user)
+        }) { (task:URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+    
+    }
+    
+    func getMobileBanner(id: String , success: @escaping (String) -> (), failure: @escaping (Error) -> ()) {
+        let urlString = "1.1/users/profile_banner.json?user_id=" + id
+        get(urlString, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            let banners = response as! NSDictionary
+            let sizes = banners["sizes"] as! NSDictionary
+            let mobile = sizes["mobile"] as! NSDictionary
+            let urlString = mobile["url"] as! String
+            success(urlString)
+        }) { (task:URLSessionDataTask?, error: Error) in
+            failure(error)
+        }
+
+    }
+    
+    func sendTweet(status: String, inReplyToID: String?, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
+        var urlString = "1.1/statuses/update.json?status=" + status.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        print(urlString)
+        if inReplyToID != nil {
+            urlString += "&in_reply_to_status_id=" + inReplyToID!
+        }
+        print(urlString)
+        post(urlString, parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }) { (task: URLSessionDataTask?, error: Error) in
+            print(error.localizedDescription)
+        }
     }
 
 }
